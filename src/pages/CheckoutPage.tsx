@@ -36,6 +36,7 @@ export default function CheckoutPage() {
   // Pre-applied discount from cart page
   const stateDiscount = location.state?.discount || 0;
   const stateCouponCode = location.state?.couponCode || '';
+  const stateCouponData = location.state?.couponData || null;
 
   const subtotal = stateItems.reduce((sum: number, i: any) => sum + i.price * (i.quantity || 1), 0);
 
