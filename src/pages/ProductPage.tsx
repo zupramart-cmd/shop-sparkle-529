@@ -194,15 +194,6 @@ export default function ProductPage() {
             <h2 className="font-bold text-base mb-4">Similar Products</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">{related.map(p => <ProductCard key={p.id} product={p} />)}</div>
           </section>
-        )}
-        </div>
-
-        {related.length > 0 && (
-          <section className="mt-8 px-4 lg:px-0">
-            <h2 className="font-bold text-base mb-4">Similar Products</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">{related.map(p => <ProductCard key={p.id} product={p} />)}</div>
-          </section>
-        )}
       </div>
 
       {/* Mobile sticky action bar - no floating */}
