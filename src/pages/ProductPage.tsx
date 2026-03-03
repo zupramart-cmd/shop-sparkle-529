@@ -69,7 +69,7 @@ export default function ProductPage() {
   };
 
   return (
-    <div className="pb-nav lg:pb-8">
+    <div className="pb-36 lg:pb-8">
       <div className="max-w-screen-xl mx-auto lg:px-6 lg:py-6">
         <div className="lg:grid lg:grid-cols-2 lg:gap-10">
           {/* Image Gallery */}
