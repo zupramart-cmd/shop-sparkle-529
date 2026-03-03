@@ -15,6 +15,7 @@ export default function CartPage() {
   const navigate = useNavigate();
   const [coupon, setCoupon] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState('');
+  const [appliedCouponData, setAppliedCouponData] = useState<any>(null);
   const [discount, setDiscount] = useState(0);
   const [discountFlat, setDiscountFlat] = useState(0);
   const [couponError, setCouponError] = useState('');
