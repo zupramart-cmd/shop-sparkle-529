@@ -169,7 +169,7 @@ export default function CartPage() {
       <div className="fixed bottom-16 left-0 right-0 p-3 bg-card/95 backdrop-blur border-t border-border lg:hidden z-40">
         <Button
           className="w-full h-12 font-semibold flex items-center justify-center gap-2"
-          onClick={() => navigate('/checkout', { state: { selectedItems, discount, couponCode: appliedCoupon } })}
+          onClick={() => navigate('/checkout', { state: { selectedItems, discount, couponCode: appliedCoupon, couponData: appliedCouponData } })}
           disabled={selectedItems.length === 0}
         >
           Checkout ({selectedItems.length}) &bull; ৳{finalTotal.toFixed(0)} <ArrowRight size={16} />
