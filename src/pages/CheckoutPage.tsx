@@ -36,7 +36,6 @@ export default function CheckoutPage() {
   // Pre-applied discount from cart page
   const stateDiscount = location.state?.discount || 0;
   const stateCouponCode = location.state?.couponCode || '';
-  const stateCouponData = location.state?.couponData || null;
 
   const subtotal = stateItems.reduce((sum: number, i: any) => sum + i.price * (i.quantity || 1), 0);
 
@@ -167,10 +166,9 @@ export default function CheckoutPage() {
       }
 
       // Delete user-specific coupon after use (remove from Firebase completely)
-      const couponToDelete = appliedCoupon || stateCouponData;
-      if (couponToDelete?.userId) {
+      if (appliedCoupon?.userId) {
         const { deleteCoupon } = await import('@/hooks/useFirestoreData');
-        await deleteCoupon(couponToDelete.id);
+        await deleteCoupon(appliedCoupon.id);
       }
 
       await clearCart();
