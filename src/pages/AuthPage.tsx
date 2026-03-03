@@ -65,7 +65,7 @@ export default function AuthPage() {
       {/* Left illustration (desktop) */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary to-primary/80 items-center justify-center p-12 relative overflow-hidden">
         <div className="relative z-10 text-center text-primary-foreground">
-          <img src="/logo.png" alt={settings.appName} className="w-20 h-20 mx-auto mb-6" />
+          <img src={settings.appLogo || '/logo.png'} alt={settings.appName} className="w-20 h-20 mx-auto mb-6 object-contain" onError={e => { (e.target as HTMLImageElement).src = '/logo.png'; }} />
           <h1 className="text-4xl font-bold mb-4">Welcome to {settings.appName}</h1>
           <p className="text-white/80 text-lg max-w-sm mx-auto">সেরা পণ্য, সেরা দাম। আজই শপিং শুরু করুন।</p>
         </div>
