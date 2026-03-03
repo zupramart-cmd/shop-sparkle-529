@@ -85,7 +85,7 @@ export default function Header() {
             <span className="block h-0.5 bg-foreground w-5 rounded-full" />
           </button>
           <Link to="/" className="flex-1 flex items-center gap-2">
-            <img src="/logo.png" alt={settings.appName} className="w-8 h-8" />
+            <img src={settings.appLogo || '/logo.png'} alt={settings.appName} className="w-8 h-8 object-contain" onError={e => { (e.target as HTMLImageElement).src = '/logo.png'; }} />
             <span className="font-bold text-lg text-primary">{settings.appName}</span>
           </Link>
           <Link to="/cart" className="relative p-2">

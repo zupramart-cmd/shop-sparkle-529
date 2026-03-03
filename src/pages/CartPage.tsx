@@ -101,7 +101,6 @@ export default function CartPage() {
                     <div className="flex items-center justify-between mt-2">
                       <div>
                         <span className="font-bold text-sm">৳{(item.price * item.quantity).toFixed(0)}</span>
-                        <span className="text-xs text-muted-foreground ml-1">(৳{item.price} × {item.quantity})</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="flex items-center gap-1 border border-border rounded-lg">
