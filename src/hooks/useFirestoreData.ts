@@ -160,6 +160,21 @@ export function useCoupons() {
   return { coupons, loading };
 }
 
+export function useMyCoupons(userId?: string) {
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (!userId) { setLoading(false); setCoupons([]); return; }
+    const q = query(collection(db, 'coupons'), where('userId', '==', userId), where('active', '==', true));
+    const unsub = onSnapshot(q, snap => {
+      setCoupons(snap.docs.map(d => ({ id: d.id, ...d.data() } as Coupon)));
+      setLoading(false);
+    }, () => setLoading(false));
+    return unsub;
+  }, [userId]);
+  return { coupons, loading };
+}
+
 export function useOrders(userId?: string) {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
