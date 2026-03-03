@@ -108,7 +108,7 @@ export default function Header() {
         {/* Desktop Header */}
         <div className="hidden lg:flex items-center gap-6 px-6 h-16 max-w-screen-xl mx-auto">
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <img src="/logo.png" alt={settings.appName} className="w-9 h-9" />
+            <img src={settings.appLogo || '/logo.png'} alt={settings.appName} className="w-9 h-9 object-contain" onError={e => { (e.target as HTMLImageElement).src = '/logo.png'; }} />
             <span className="font-bold text-xl text-primary">{settings.appName}</span>
           </Link>
           <div ref={searchRef} className="flex-1 max-w-xl relative">
