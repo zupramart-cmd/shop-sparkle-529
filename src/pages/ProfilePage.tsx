@@ -29,6 +29,8 @@ export default function ProfilePage() {
   const [redeemErr, setRedeemErr] = useState('');
 
   const { orders, loading: ordersLoading } = useOrders(user?.uid);
+  const { coupons: myCoupons } = useMyCoupons(user?.uid);
+  const [couponCopied, setCouponCopied] = useState('');
 
   useEffect(() => {
     if (userData) {
