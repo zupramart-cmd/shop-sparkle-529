@@ -42,6 +42,7 @@ export default function CartPage() {
     const found = await validateCoupon(coupon, user?.uid);
     if (found) {
       setAppliedCoupon(found.code);
+      setAppliedCouponData(found);
       setDiscount(found.discountPercent || 0);
       setDiscountFlat(found.maxDiscount || 0);
     } else {
