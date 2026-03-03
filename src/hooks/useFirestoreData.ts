@@ -73,6 +73,11 @@ export interface Order {
   deliveredAt?: any;
 }
 
+export interface DeliveryArea {
+  name: string;
+  charge: number;
+}
+
 export interface AppSettings {
   appName: string;
   appLogo: string;
@@ -83,7 +88,8 @@ export interface AppSettings {
   nagadNumber: string;
   location: string;
   deliveryCharge: number;
-  pointsPerTaka: number; // How many points = 1 taka discount
+  pointsPerTaka: number;
+  deliveryAreas: DeliveryArea[];
 }
 
 const DEFAULT_SETTINGS: AppSettings = {
@@ -96,7 +102,8 @@ const DEFAULT_SETTINGS: AppSettings = {
   nagadNumber: '',
   location: '',
   deliveryCharge: 60,
-  pointsPerTaka: 10, // 10 points = 1 taka
+  pointsPerTaka: 10,
+  deliveryAreas: [],
 };
 
 export function useProducts() {
