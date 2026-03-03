@@ -1,8 +1,25 @@
 import { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { motion, AnimatePresence } from 'framer-motion';
+
+function ChatBotButton({ open, setOpen }: { open: boolean; setOpen: (v: boolean) => void }) {
+  const location = useLocation();
+  const hiddenPaths = ['/product/', '/cart'];
+  const shouldHide = hiddenPaths.some(p => location.pathname.startsWith(p));
+  if (shouldHide) return null;
+  return (
+    <motion.button
+      whileTap={{ scale: 0.9 }}
+      onClick={() => setOpen(!open)}
+      className="fixed bottom-20 right-4 w-12 h-12 bg-primary text-primary-foreground rounded-full shadow-lg flex items-center justify-center z-50 lg:bottom-6"
+    >
+      {open ? <X size={20} /> : <MessageCircle size={20} />}
+    </motion.button>
+  );
+}
 
 interface Message {
   id: string;

@@ -81,7 +81,7 @@ export default function AuthPage() {
           </Link>
 
           <div className="lg:hidden flex items-center gap-2 mb-8">
-            <img src="/logo.png" alt={settings.appName} className="w-10 h-10" />
+            <img src={settings.appLogo || '/logo.png'} alt={settings.appName} className="w-10 h-10 object-contain" onError={e => { (e.target as HTMLImageElement).src = '/logo.png'; }} />
             <span className="text-xl font-bold text-primary">{settings.appName}</span>
           </div>
 
