@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useOrders, useSettings, bindReferral, generateLoyaltyCoupon, useMyCoupons } from '@/hooks/useFirestoreData';
+import { useOrders, useSettings, bindReferral, generateLoyaltyCoupon } from '@/hooks/useFirestoreData';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
@@ -29,8 +29,6 @@ export default function ProfilePage() {
   const [redeemErr, setRedeemErr] = useState('');
 
   const { orders, loading: ordersLoading } = useOrders(user?.uid);
-  const { coupons: myCoupons } = useMyCoupons(user?.uid);
-  const [couponCopied, setCouponCopied] = useState('');
 
   useEffect(() => {
     if (userData) {
@@ -203,36 +201,6 @@ export default function ProfilePage() {
                 {redeemMsg && <p className="text-xs text-green-600 bg-green-500/10 p-2 rounded-lg">{redeemMsg}</p>}
                 {redeemErr && <p className="text-xs text-destructive">{redeemErr}</p>}
               </div>
-            </div>
-          )}
-
-          {/* My Active Coupons */}
-          {myCoupons.length > 0 && (
-            <div className="bg-card border border-border rounded-xl p-4">
-              <h2 className="font-semibold text-sm mb-3 flex items-center gap-2"><Ticket size={14} className="text-primary" /> আপনার কুপন</h2>
-              <div className="space-y-2">
-                {myCoupons.map(c => (
-                  <div key={c.id} className="flex items-center gap-3 bg-muted/50 rounded-xl p-3">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold font-mono text-primary">{c.code}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {c.discountPercent > 0 ? `${c.discountPercent}% off` : `৳${c.maxDiscount} flat discount`}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(c.code);
-                        setCouponCopied(c.id);
-                        setTimeout(() => setCouponCopied(''), 2000);
-                      }}
-                      className="p-2 hover:bg-border rounded-lg"
-                    >
-                      {couponCopied === c.id ? <Check size={14} className="text-green-500" /> : <Copy size={14} className="text-muted-foreground" />}
-                    </button>
-                  </div>
-                ))}
-              </div>
-              <p className="text-[10px] text-muted-foreground mt-2">কুপন একবার ব্যবহার করলে স্বয়ংক্রিয়ভাবে মুছে যাবে।</p>
             </div>
           )}
 

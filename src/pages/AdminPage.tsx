@@ -482,46 +482,18 @@ export default function AdminPage() {
               </div>
             ))}
 
-            {/* Delivery Charge (default) */}
+            {/* Delivery Charge */}
             <div className="space-y-1.5">
-              <Label>Default Delivery Charge (৳)</Label>
+              <Label>Delivery Charge (৳) — Standard</Label>
               <Input type="number" value={(form.deliveryCharge ?? settings.deliveryCharge) || 60} onChange={e => setForm((f: any) => ({ ...f, deliveryCharge: Number(e.target.value) }))} />
-            </div>
-
-            {/* Delivery Areas */}
-            <div className="space-y-2">
-              <Label>Delivery Areas & Charges</Label>
-              <p className="text-xs text-muted-foreground">ইউজার চেকআউটে ড্রপডাউন থেকে এরিয়া সিলেক্ট করবে।</p>
-              {(form.deliveryAreas ?? settings.deliveryAreas ?? []).map((area: any, i: number) => (
-                <div key={i} className="flex gap-2 items-center">
-                  <Input value={area.name} placeholder="Area name" onChange={e => {
-                    const areas = [...(form.deliveryAreas ?? settings.deliveryAreas ?? [])];
-                    areas[i] = { ...areas[i], name: e.target.value };
-                    setForm((f: any) => ({ ...f, deliveryAreas: areas }));
-                  }} className="flex-1 h-9 text-sm" />
-                  <Input type="number" value={area.charge} placeholder="৳" onChange={e => {
-                    const areas = [...(form.deliveryAreas ?? settings.deliveryAreas ?? [])];
-                    areas[i] = { ...areas[i], charge: Number(e.target.value) };
-                    setForm((f: any) => ({ ...f, deliveryAreas: areas }));
-                  }} className="w-24 h-9 text-sm" />
-                  <button onClick={() => {
-                    const areas = [...(form.deliveryAreas ?? settings.deliveryAreas ?? [])];
-                    areas.splice(i, 1);
-                    setForm((f: any) => ({ ...f, deliveryAreas: areas }));
-                  }} className="p-1.5 text-destructive hover:bg-destructive/10 rounded-lg"><Trash2 size={13} /></button>
-                </div>
-              ))}
-              <Button variant="outline" size="sm" className="gap-1 text-xs" onClick={() => {
-                const areas = [...(form.deliveryAreas ?? settings.deliveryAreas ?? []), { name: '', charge: 60 }];
-                setForm((f: any) => ({ ...f, deliveryAreas: areas }));
-              }}><Plus size={12} /> Add Area</Button>
+              <p className="text-xs text-muted-foreground">Express delivery will be 2× this amount.</p>
             </div>
 
             {/* Points per Taka */}
             <div className="space-y-1.5">
               <Label>Points Per Taka Discount</Label>
               <Input type="number" value={(form.pointsPerTaka ?? settings.pointsPerTaka) || 10} onChange={e => setForm((f: any) => ({ ...f, pointsPerTaka: Number(e.target.value) }))} />
-              <p className="text-xs text-muted-foreground">e.g., 10 = 10 points = ৳1 discount.</p>
+              <p className="text-xs text-muted-foreground">e.g., 10 = 10 points = ৳1 discount. Users can redeem points for coupons from their profile.</p>
             </div>
 
             <div className="space-y-1.5">

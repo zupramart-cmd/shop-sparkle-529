@@ -70,7 +70,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-screen-lg mx-auto px-4 py-5 pb-36 lg:pb-8">
+    <div className="max-w-screen-lg mx-auto px-4 py-5 pb-nav lg:pb-8">
       <div className="flex items-center justify-between mb-5">
         <h1 className="font-bold text-xl">Cart ({itemCount} items)</h1>
         <label className="flex items-center gap-2 cursor-pointer text-sm">
@@ -101,6 +101,7 @@ export default function CartPage() {
                     <div className="flex items-center justify-between mt-2">
                       <div>
                         <span className="font-bold text-sm">৳{(item.price * item.quantity).toFixed(0)}</span>
+                        <span className="text-xs text-muted-foreground ml-1">(৳{item.price} × {item.quantity})</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="flex items-center gap-1 border border-border rounded-lg">
