@@ -167,9 +167,10 @@ export default function CheckoutPage() {
       }
 
       // Delete user-specific coupon after use (remove from Firebase completely)
-      if (appliedCoupon?.userId) {
+      const couponToDelete = appliedCoupon || stateCouponData;
+      if (couponToDelete?.userId) {
         const { deleteCoupon } = await import('@/hooks/useFirestoreData');
-        await deleteCoupon(appliedCoupon.id);
+        await deleteCoupon(couponToDelete.id);
       }
 
       await clearCart();
