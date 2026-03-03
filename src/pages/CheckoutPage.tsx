@@ -165,10 +165,10 @@ export default function CheckoutPage() {
         await updateDoc(userRef, { loyaltyPoints: currentPoints + earnedPoints });
       }
 
-      // Deactivate loyalty coupon if used
+      // Delete user-specific coupon after use (remove from Firebase completely)
       if (appliedCoupon?.userId) {
-        const { updateCoupon } = await import('@/hooks/useFirestoreData');
-        await updateCoupon(appliedCoupon.id, { active: false });
+        const { deleteCoupon } = await import('@/hooks/useFirestoreData');
+        await deleteCoupon(appliedCoupon.id);
       }
 
       await clearCart();

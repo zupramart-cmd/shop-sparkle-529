@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useOrders, useSettings, bindReferral, generateLoyaltyCoupon } from '@/hooks/useFirestoreData';
+import { useOrders, useSettings, bindReferral, generateLoyaltyCoupon, useMyCoupons } from '@/hooks/useFirestoreData';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
