@@ -69,7 +69,7 @@ export default function ProductPage() {
   };
 
   return (
-    <div className="pb-nav lg:pb-8">
+    <div className="pb-36 lg:pb-8">
       <div className="max-w-screen-xl mx-auto lg:px-6 lg:py-6">
         <div className="lg:grid lg:grid-cols-2 lg:gap-10">
           {/* Image Gallery */}
@@ -188,9 +188,10 @@ export default function ProductPage() {
           </div>
         </div>
 
+        {/* Similar/Suggested Products - below reviews */}
         {related.length > 0 && (
-          <section className="mt-8 px-4 lg:px-0">
-            <h2 className="font-bold text-base mb-4">Related Products</h2>
+          <section className="mt-4 px-4 lg:px-0">
+            <h2 className="font-bold text-base mb-4">Similar Products</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">{related.map(p => <ProductCard key={p.id} product={p} />)}</div>
           </section>
         )}

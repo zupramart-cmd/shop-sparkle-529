@@ -15,6 +15,7 @@ export default function CartPage() {
   const navigate = useNavigate();
   const [coupon, setCoupon] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState('');
+  const [appliedCouponData, setAppliedCouponData] = useState<any>(null);
   const [discount, setDiscount] = useState(0);
   const [discountFlat, setDiscountFlat] = useState(0);
   const [couponError, setCouponError] = useState('');
@@ -41,6 +42,7 @@ export default function CartPage() {
     const found = await validateCoupon(coupon, user?.uid);
     if (found) {
       setAppliedCoupon(found.code);
+      setAppliedCouponData(found);
       setDiscount(found.discountPercent || 0);
       setDiscountFlat(found.maxDiscount || 0);
     } else {
@@ -70,7 +72,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-screen-lg mx-auto px-4 py-5 pb-nav lg:pb-8">
+    <div className="max-w-screen-lg mx-auto px-4 py-5 pb-36 lg:pb-8">
       <div className="flex items-center justify-between mb-5">
         <h1 className="font-bold text-xl">Cart ({itemCount} items)</h1>
         <label className="flex items-center gap-2 cursor-pointer text-sm">
@@ -101,7 +103,6 @@ export default function CartPage() {
                     <div className="flex items-center justify-between mt-2">
                       <div>
                         <span className="font-bold text-sm">৳{(item.price * item.quantity).toFixed(0)}</span>
-                        <span className="text-xs text-muted-foreground ml-1">(৳{item.price} × {item.quantity})</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="flex items-center gap-1 border border-border rounded-lg">
@@ -125,7 +126,7 @@ export default function CartPage() {
             {appliedCoupon ? (
               <div className="flex items-center justify-between bg-green-500/10 border border-green-500/20 rounded-lg p-3">
                 <span className="text-green-600 text-sm font-semibold flex items-center gap-1"><Check size={14} /> {appliedCoupon} applied (-৳{discountAmount.toFixed(0)})</span>
-                <button onClick={() => { setAppliedCoupon(''); setDiscount(0); setDiscountFlat(0); }} className="text-xs text-muted-foreground hover:text-destructive">Remove</button>
+                <button onClick={() => { setAppliedCoupon(''); setAppliedCouponData(null); setDiscount(0); setDiscountFlat(0); }} className="text-xs text-muted-foreground hover:text-destructive">Remove</button>
               </div>
             ) : (
               <div className="flex gap-2">
@@ -155,7 +156,7 @@ export default function CartPage() {
             {/* Checkout button in summary card - desktop only */}
             <Button
               className="w-full mt-4 h-12 font-semibold hidden lg:flex items-center justify-center gap-2"
-              onClick={() => navigate('/checkout', { state: { selectedItems, discount, couponCode: appliedCoupon } })}
+              onClick={() => navigate('/checkout', { state: { selectedItems, discount, couponCode: appliedCoupon, couponData: appliedCouponData } })}
               disabled={selectedItems.length === 0}
             >
               Checkout <ArrowRight size={16} />
@@ -168,7 +169,7 @@ export default function CartPage() {
       <div className="fixed bottom-16 left-0 right-0 p-3 bg-card/95 backdrop-blur border-t border-border lg:hidden z-40">
         <Button
           className="w-full h-12 font-semibold flex items-center justify-center gap-2"
-          onClick={() => navigate('/checkout', { state: { selectedItems, discount, couponCode: appliedCoupon } })}
+          onClick={() => navigate('/checkout', { state: { selectedItems, discount, couponCode: appliedCoupon, couponData: appliedCouponData } })}
           disabled={selectedItems.length === 0}
         >
           Checkout ({selectedItems.length}) &bull; ৳{finalTotal.toFixed(0)} <ArrowRight size={16} />

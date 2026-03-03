@@ -73,6 +73,11 @@ export interface Order {
   deliveredAt?: any;
 }
 
+export interface DeliveryArea {
+  name: string;
+  charge: number;
+}
+
 export interface AppSettings {
   appName: string;
   appLogo: string;
@@ -83,7 +88,8 @@ export interface AppSettings {
   nagadNumber: string;
   location: string;
   deliveryCharge: number;
-  pointsPerTaka: number; // How many points = 1 taka discount
+  pointsPerTaka: number;
+  deliveryAreas: DeliveryArea[];
 }
 
 const DEFAULT_SETTINGS: AppSettings = {
@@ -96,7 +102,8 @@ const DEFAULT_SETTINGS: AppSettings = {
   nagadNumber: '',
   location: '',
   deliveryCharge: 60,
-  pointsPerTaka: 10, // 10 points = 1 taka
+  pointsPerTaka: 10,
+  deliveryAreas: [],
 };
 
 export function useProducts() {
@@ -150,6 +157,21 @@ export function useCoupons() {
     }, () => setLoading(false));
     return unsub;
   }, []);
+  return { coupons, loading };
+}
+
+export function useMyCoupons(userId?: string) {
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (!userId) { setLoading(false); setCoupons([]); return; }
+    const q = query(collection(db, 'coupons'), where('userId', '==', userId), where('active', '==', true));
+    const unsub = onSnapshot(q, snap => {
+      setCoupons(snap.docs.map(d => ({ id: d.id, ...d.data() } as Coupon)));
+      setLoading(false);
+    }, () => setLoading(false));
+    return unsub;
+  }, [userId]);
   return { coupons, loading };
 }
 

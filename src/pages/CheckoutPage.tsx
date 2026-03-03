@@ -36,6 +36,7 @@ export default function CheckoutPage() {
   // Pre-applied discount from cart page
   const stateDiscount = location.state?.discount || 0;
   const stateCouponCode = location.state?.couponCode || '';
+  const stateCouponData = location.state?.couponData || null;
 
   const subtotal = stateItems.reduce((sum: number, i: any) => sum + i.price * (i.quantity || 1), 0);
 
@@ -44,9 +45,12 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState<'cod' | 'mobile'>('cod');
   const [mobilePayment, setMobilePayment] = useState({ method: 'bKash', number: '', transactionId: '', screenshot: '' });
 
+  const deliveryAreas = settings.deliveryAreas || [];
+  const [selectedAreaIndex, setSelectedAreaIndex] = useState<number>(-1);
+
   const deliveryOptions = [
-    { id: 'standard', label: 'Standard Delivery', time: '৩-৫ কার্যদিবস', price: settings.deliveryCharge || 60 },
-    { id: 'express', label: 'Express Delivery', time: '১-২ কার্যদিবস', price: (settings.deliveryCharge || 60) * 2 },
+    { id: 'standard', label: 'Standard Delivery', time: '৩-৫ কার্যদিবস', price: selectedAreaIndex >= 0 ? deliveryAreas[selectedAreaIndex]?.charge : (settings.deliveryCharge || 60) },
+    { id: 'express', label: 'Express Delivery', time: '১-২ কার্যদিবস', price: (selectedAreaIndex >= 0 ? deliveryAreas[selectedAreaIndex]?.charge : (settings.deliveryCharge || 60)) * 2 },
   ];
   const deliveryOpt = deliveryOptions.find(d => d.id === selectedDelivery) || deliveryOptions[0];
   const deliveryCharge = deliveryOpt.price;
@@ -162,10 +166,11 @@ export default function CheckoutPage() {
         await updateDoc(userRef, { loyaltyPoints: currentPoints + earnedPoints });
       }
 
-      // Deactivate loyalty coupon if used
-      if (appliedCoupon?.userId) {
-        const { updateCoupon } = await import('@/hooks/useFirestoreData');
-        await updateCoupon(appliedCoupon.id, { active: false });
+      // Delete user-specific coupon after use (remove from Firebase completely)
+      const couponToDelete = appliedCoupon || stateCouponData;
+      if (couponToDelete?.userId) {
+        const { deleteCoupon } = await import('@/hooks/useFirestoreData');
+        await deleteCoupon(couponToDelete.id);
       }
 
       await clearCart();
@@ -256,6 +261,24 @@ export default function CheckoutPage() {
       {step === 2 && (
         <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
           <h2 className="font-bold">Delivery Options</h2>
+
+          {/* Delivery Area Selection */}
+          {deliveryAreas.length > 0 && (
+            <div className="space-y-1.5">
+              <Label>Delivery Area</Label>
+              <select
+                value={selectedAreaIndex}
+                onChange={e => setSelectedAreaIndex(Number(e.target.value))}
+                className="w-full h-10 rounded-xl border border-input bg-background px-3 text-sm"
+              >
+                <option value={-1}>Default — ৳{settings.deliveryCharge || 60}</option>
+                {deliveryAreas.map((area, i) => (
+                  <option key={i} value={i}>{area.name} — ৳{area.charge}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <div className="space-y-3">
             {deliveryOptions.map(opt => (
               <label key={opt.id} className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all ${selectedDelivery === opt.id ? 'border-primary bg-primary/5' : 'border-border'}`}>
