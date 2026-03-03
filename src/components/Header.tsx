@@ -114,7 +114,7 @@ export default function Header() {
         <div className="lg:hidden px-4 pb-2" ref={searchRef}>
           <form onSubmit={handleSearch} className="relative">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-            <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onFocus={() => suggestions.length > 0 && setShowSuggestions(true)} className="pl-9 h-9 rounded-xl bg-muted border-0 text-sm" />
+            <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onFocus={() => suggestions.length > 0 && setShowSuggestions(true)} placeholder={placeholderText} className="pl-9 h-9 rounded-xl bg-muted border-0 text-sm" />
             <SuggestionsDropdown />
           </form>
         </div>
