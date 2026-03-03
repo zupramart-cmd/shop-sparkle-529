@@ -21,6 +21,20 @@ export default function Header() {
   const [suggestions, setSuggestions] = useState<{ id: string; name: string; image: string }[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+
+  // Dynamic search placeholder cycling product names
+  const placeholderText = products.length > 0
+    ? `Search "${products[placeholderIndex % products.length]?.name?.slice(0, 25)}..."`
+    : 'Search products...';
+
+  useEffect(() => {
+    if (products.length === 0) return;
+    const interval = setInterval(() => {
+      setPlaceholderIndex(prev => (prev + 1) % products.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [products.length]);
 
   // Admin users should only see admin panel
   const isAdmin = userData?.role === 'admin';
@@ -85,7 +99,7 @@ export default function Header() {
             <span className="block h-0.5 bg-foreground w-5 rounded-full" />
           </button>
           <Link to="/" className="flex-1 flex items-center gap-2">
-            <img src="/logo.png" alt={settings.appName} className="w-8 h-8" />
+            <img src={settings.appLogo || '/logo.png'} alt={settings.appName} className="w-8 h-8 object-contain" onError={e => { (e.target as HTMLImageElement).src = '/logo.png'; }} />
             <span className="font-bold text-lg text-primary">{settings.appName}</span>
           </Link>
           <Link to="/cart" className="relative p-2">
@@ -100,7 +114,7 @@ export default function Header() {
         <div className="lg:hidden px-4 pb-2" ref={searchRef}>
           <form onSubmit={handleSearch} className="relative">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-            <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onFocus={() => suggestions.length > 0 && setShowSuggestions(true)} className="pl-9 h-9 rounded-xl bg-muted border-0 text-sm" />
+            <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onFocus={() => suggestions.length > 0 && setShowSuggestions(true)} placeholder={placeholderText} className="pl-9 h-9 rounded-xl bg-muted border-0 text-sm" />
             <SuggestionsDropdown />
           </form>
         </div>
@@ -108,13 +122,13 @@ export default function Header() {
         {/* Desktop Header */}
         <div className="hidden lg:flex items-center gap-6 px-6 h-16 max-w-screen-xl mx-auto">
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <img src="/logo.png" alt={settings.appName} className="w-9 h-9" />
+            <img src={settings.appLogo || '/logo.png'} alt={settings.appName} className="w-9 h-9 object-contain" onError={e => { (e.target as HTMLImageElement).src = '/logo.png'; }} />
             <span className="font-bold text-xl text-primary">{settings.appName}</span>
           </Link>
           <div ref={searchRef} className="flex-1 max-w-xl relative">
             <form onSubmit={handleSearch} className="relative">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-              <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onFocus={() => suggestions.length > 0 && setShowSuggestions(true)} className="pl-9 rounded-xl bg-muted border-0" />
+              <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onFocus={() => suggestions.length > 0 && setShowSuggestions(true)} placeholder={placeholderText} className="pl-9 rounded-xl bg-muted border-0" />
             </form>
             <SuggestionsDropdown />
           </div>
@@ -161,7 +175,7 @@ export default function Header() {
             <motion.div initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }} transition={{ type: 'spring', damping: 25, stiffness: 300 }} className="fixed left-0 top-0 bottom-0 w-72 bg-card z-50 lg:hidden flex flex-col">
               <div className="flex items-center justify-between p-4 border-b">
                 <Link to="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
-                  <img src="/logo.png" alt={settings.appName} className="w-8 h-8" />
+                   <img src={settings.appLogo || '/logo.png'} alt={settings.appName} className="w-8 h-8 object-contain" onError={e => { (e.target as HTMLImageElement).src = '/logo.png'; }} />
                   <span className="font-bold text-lg text-primary">{settings.appName}</span>
                 </Link>
                 <button onClick={() => setMobileMenuOpen(false)} className="p-2"><X size={20} /></button>

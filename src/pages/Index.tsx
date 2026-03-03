@@ -147,7 +147,7 @@ export default function Index() {
         <div className="max-w-screen-xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <img src="/logo.png" alt={settings.appName} className="w-7 h-7" />
+              <img src={settings.appLogo || '/logo.png'} alt={settings.appName} className="w-7 h-7 object-contain" onError={e => { (e.target as HTMLImageElement).src = '/logo.png'; }} />
               <span className="font-bold text-base text-foreground">{settings.appName}</span>
             </div>
             <p className="text-xs leading-relaxed">আপনার বিশ্বস্ত অনলাইন শপিং প্ল্যাটফর্ম।</p>
