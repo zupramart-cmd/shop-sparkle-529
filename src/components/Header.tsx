@@ -21,6 +21,20 @@ export default function Header() {
   const [suggestions, setSuggestions] = useState<{ id: string; name: string; image: string }[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+
+  // Dynamic search placeholder cycling product names
+  const placeholderText = products.length > 0
+    ? `Search "${products[placeholderIndex % products.length]?.name?.slice(0, 25)}..."`
+    : 'Search products...';
+
+  useEffect(() => {
+    if (products.length === 0) return;
+    const interval = setInterval(() => {
+      setPlaceholderIndex(prev => (prev + 1) % products.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [products.length]);
 
   // Admin users should only see admin panel
   const isAdmin = userData?.role === 'admin';
