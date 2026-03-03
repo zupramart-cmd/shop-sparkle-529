@@ -44,9 +44,12 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState<'cod' | 'mobile'>('cod');
   const [mobilePayment, setMobilePayment] = useState({ method: 'bKash', number: '', transactionId: '', screenshot: '' });
 
+  const deliveryAreas = settings.deliveryAreas || [];
+  const [selectedAreaIndex, setSelectedAreaIndex] = useState<number>(-1);
+
   const deliveryOptions = [
-    { id: 'standard', label: 'Standard Delivery', time: '৩-৫ কার্যদিবস', price: settings.deliveryCharge || 60 },
-    { id: 'express', label: 'Express Delivery', time: '১-২ কার্যদিবস', price: (settings.deliveryCharge || 60) * 2 },
+    { id: 'standard', label: 'Standard Delivery', time: '৩-৫ কার্যদিবস', price: selectedAreaIndex >= 0 ? deliveryAreas[selectedAreaIndex]?.charge : (settings.deliveryCharge || 60) },
+    { id: 'express', label: 'Express Delivery', time: '১-২ কার্যদিবস', price: (selectedAreaIndex >= 0 ? deliveryAreas[selectedAreaIndex]?.charge : (settings.deliveryCharge || 60)) * 2 },
   ];
   const deliveryOpt = deliveryOptions.find(d => d.id === selectedDelivery) || deliveryOptions[0];
   const deliveryCharge = deliveryOpt.price;
