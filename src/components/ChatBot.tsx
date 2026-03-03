@@ -124,13 +124,7 @@ export default function ChatBot() {
           </motion.div>
         )}
       </AnimatePresence>
-      <motion.button
-        whileTap={{ scale: 0.9 }}
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-20 right-4 w-12 h-12 bg-primary text-primary-foreground rounded-full shadow-lg flex items-center justify-center z-50 lg:bottom-6"
-      >
-        {open ? <X size={20} /> : <MessageCircle size={20} />}
-      </motion.button>
+      <ChatBotButton open={open} setOpen={setOpen} />
     </>
   );
 }
