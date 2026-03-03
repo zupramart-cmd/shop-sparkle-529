@@ -126,7 +126,7 @@ export default function CartPage() {
             {appliedCoupon ? (
               <div className="flex items-center justify-between bg-green-500/10 border border-green-500/20 rounded-lg p-3">
                 <span className="text-green-600 text-sm font-semibold flex items-center gap-1"><Check size={14} /> {appliedCoupon} applied (-৳{discountAmount.toFixed(0)})</span>
-                <button onClick={() => { setAppliedCoupon(''); setDiscount(0); setDiscountFlat(0); }} className="text-xs text-muted-foreground hover:text-destructive">Remove</button>
+                <button onClick={() => { setAppliedCoupon(''); setAppliedCouponData(null); setDiscount(0); setDiscountFlat(0); }} className="text-xs text-muted-foreground hover:text-destructive">Remove</button>
               </div>
             ) : (
               <div className="flex gap-2">
