@@ -156,7 +156,7 @@ export default function CartPage() {
             {/* Checkout button in summary card - desktop only */}
             <Button
               className="w-full mt-4 h-12 font-semibold hidden lg:flex items-center justify-center gap-2"
-              onClick={() => navigate('/checkout', { state: { selectedItems, discount, couponCode: appliedCoupon } })}
+              onClick={() => navigate('/checkout', { state: { selectedItems, discount, couponCode: appliedCoupon, couponData: appliedCouponData } })}
               disabled={selectedItems.length === 0}
             >
               Checkout <ArrowRight size={16} />
