@@ -110,7 +110,7 @@ export default function Index() {
             <div className="flex items-center gap-2"><Zap size={18} className="text-accent fill-accent" /><h2 className="font-bold text-base">Flash Deals</h2></div>
             <Link to="/search?sort=discount" className="text-primary text-sm font-medium flex items-center gap-1">View all <ChevronRight size={14} /></Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {flashDeals.map(product => <ProductCard key={product.id} product={product} />)}
           </div>
         </section>
@@ -123,7 +123,7 @@ export default function Index() {
             <div className="flex items-center gap-2"><TrendingUp size={18} className="text-primary" /><h2 className="font-bold text-base">Featured Products</h2></div>
             <Link to="/search" className="text-primary text-sm font-medium flex items-center gap-1">View all <ChevronRight size={14} /></Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {featured.map(product => <ProductCard key={product.id} product={product} />)}
           </div>
         </section>
@@ -133,11 +133,11 @@ export default function Index() {
       <section className="mt-6 px-4">
         <h2 className="font-bold text-base mb-3">All Products</h2>
         {pLoading ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {Array.from({ length: 8 }).map((_, i) => <ProductCardSkeleton key={i} />)}
           </div>
         ) : allProducts.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {allProducts.map(product => <ProductCard key={product.id} product={product} />)}
           </div>
         ) : (

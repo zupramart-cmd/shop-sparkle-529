@@ -394,14 +394,14 @@ export default function ProductPage() {
         {related.length > 0 && (
           <section className="mt-4 px-4 lg:px-0">
             <h2 className="font-bold text-base mb-4">Similar Products</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">{related.map(p => <ProductCard key={p.id} product={p} />)}</div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">{related.map(p => <ProductCard key={p.id} product={p} />)}</div>
           </section>
         )}
 
         {otherCategoryProducts.length > 0 && (
           <section className="mt-6 px-4 lg:px-0">
             <h2 className="font-bold text-base mb-4">You May Also Like</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">{otherCategoryProducts.map(p => <ProductCard key={p.id} product={p} />)}</div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">{otherCategoryProducts.map(p => <ProductCard key={p.id} product={p} />)}</div>
           </section>
         )}
       </div>

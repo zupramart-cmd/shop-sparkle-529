@@ -98,7 +98,7 @@ export default function CartPage() {
         {suggestedProducts.length > 0 && (
           <section className="mt-6">
             <h2 className="font-bold text-base mb-3">Recommended for You</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
               {suggestedProducts.map(p => <ProductCard key={p.id} product={p} />)}
             </div>
           </section>
@@ -232,7 +232,7 @@ export default function CartPage() {
         {suggestedProducts.length > 0 && (
           <section className="mt-8">
             <h2 className="font-bold text-base mb-3">Recommended for You</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
               {suggestedProducts.map(p => <ProductCard key={p.id} product={p} />)}
             </div>
           </section>

@@ -31,9 +31,9 @@ export default function CategoryPage() {
         <div className="px-4 pt-5">
           <h1 className="font-bold text-xl mb-4">All Categories</h1>
           {cLoading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">{Array.from({ length: 6 }).map((_, i) => <div key={i} className="skeleton aspect-video rounded-2xl" />)}</div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-6">{Array.from({ length: 6 }).map((_, i) => <div key={i} className="skeleton aspect-video rounded-2xl" />)}</div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-6">
               {categories.map(cat => (
                 <Link key={cat.id} to={`/category/${cat.id}`} className="relative rounded-2xl overflow-hidden aspect-video card-hover">
                   <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
@@ -50,9 +50,9 @@ export default function CategoryPage() {
       <div className="px-4 mt-4">
         {category && <p className="text-sm text-muted-foreground mb-3 font-medium">{filteredProducts.length} products in {category.name}</p>}
         {pLoading ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">{Array.from({ length: 4 }).map((_, i) => <ProductCardSkeleton key={i} />)}</div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">{Array.from({ length: 4 }).map((_, i) => <ProductCardSkeleton key={i} />)}</div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {filteredProducts.map(product => <ProductCard key={product.id} product={product} />)}
             {filteredProducts.length === 0 && (
               <div className="col-span-2 md:col-span-4 text-center py-16">
