@@ -3,6 +3,7 @@ import { useCategories, useProducts } from '@/hooks/useFirestoreData';
 import ProductCard from '@/components/ProductCard';
 import { ProductCardSkeleton, CategorySkeleton } from '@/components/Skeletons';
 import { Package } from 'lucide-react';
+import SEOHead from '@/components/SEOHead';
 
 export default function CategoryPage() {
   const { id } = useParams();
