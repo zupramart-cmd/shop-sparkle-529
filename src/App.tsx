@@ -25,6 +25,8 @@ import SupportPage from "./pages/SupportPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import TermsPage from "./pages/TermsPage";
 import ReturnPolicyPage from "./pages/ReturnPolicyPage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -74,6 +76,8 @@ function AppRoutes() {
       <Route path="/privacy-policy" element={<UserLayout><PrivacyPage /></UserLayout>} />
       <Route path="/terms" element={<UserLayout><TermsPage /></UserLayout>} />
       <Route path="/return-policy" element={<UserLayout><ReturnPolicyPage /></UserLayout>} />
+      <Route path="/about" element={<UserLayout><AboutPage /></UserLayout>} />
+      <Route path="/contact" element={<UserLayout><ContactPage /></UserLayout>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

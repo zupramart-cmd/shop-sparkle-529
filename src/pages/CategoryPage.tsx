@@ -3,6 +3,7 @@ import { useCategories, useProducts } from '@/hooks/useFirestoreData';
 import ProductCard from '@/components/ProductCard';
 import { ProductCardSkeleton, CategorySkeleton } from '@/components/Skeletons';
 import { Package } from 'lucide-react';
+import SEOHead from '@/components/SEOHead';
 
 export default function CategoryPage() {
   const { id } = useParams();
@@ -14,6 +15,11 @@ export default function CategoryPage() {
 
   return (
     <div className="pb-nav lg:pb-8 max-w-screen-xl mx-auto">
+      <SEOHead
+        title={category ? `${category.name} — ZupraMart` : 'সকল ক্যাটাগরি — ZupraMart'}
+        description={category ? `${category.name} ক্যাটাগরির সেরা পণ্য সাশ্রয়ী দামে কিনুন ZupraMart-এ। ক্যাশ অন ডেলিভারি ও দ্রুত শিপিং।` : 'ZupraMart-এর সকল ক্যাটাগরি ব্রাউজ করুন — ইলেকট্রনিক্স, ফ্যাশন, গৃহস্থালি ও আরও অনেক কিছু।'}
+        url={`https://zupramart.netlify.app/category${id ? `/${id}` : ''}`}
+      />
       {category ? (
         <div className="relative h-32 overflow-hidden">
           <img src={category.image} alt={category.name} className="w-full h-full object-cover" />

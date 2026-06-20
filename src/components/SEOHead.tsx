@@ -9,7 +9,7 @@ interface SEOHeadProps {
   schema?: Record<string, any>;
 }
 
-export default function SEOHead({ title, description, url, image = '/logo.jpg', type = 'website', schema }: SEOHeadProps) {
+export default function SEOHead({ title, description, url, image = '/logo.png', type = 'website', schema }: SEOHeadProps) {
   useEffect(() => {
     // Title
     document.title = title;
@@ -43,7 +43,7 @@ export default function SEOHead({ title, description, url, image = '/logo.jpg', 
       }
       canonical.setAttribute('href', url);
     }
-    const imgUrl = image ? (image.startsWith('http') ? image : `https://zupramart.netlify.app${image}`) : 'https://zupramart.netlify.app/logo.jpg';
+    const imgUrl = image ? (image.startsWith('http') ? image : `https://zupramart.netlify.app${image}`) : 'https://zupramart.netlify.app/logo.png';
     setMeta('og:image', imgUrl, 'property');
     setMeta('og:image:width', '1100', 'property');
     setMeta('twitter:card', 'summary_large_image', 'name');
