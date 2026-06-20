@@ -76,6 +76,8 @@ function AppRoutes() {
       <Route path="/privacy-policy" element={<UserLayout><PrivacyPage /></UserLayout>} />
       <Route path="/terms" element={<UserLayout><TermsPage /></UserLayout>} />
       <Route path="/return-policy" element={<UserLayout><ReturnPolicyPage /></UserLayout>} />
+      <Route path="/about" element={<UserLayout><AboutPage /></UserLayout>} />
+      <Route path="/contact" element={<UserLayout><ContactPage /></UserLayout>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
