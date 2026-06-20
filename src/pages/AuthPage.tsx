@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link, useSearchParams } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams, useLocation } from 'react-router-dom';
 import { Eye, EyeOff, ArrowLeft, Mail, Lock, RotateCcw } from 'lucide-react';
 import { getAuth } from 'firebase/auth';
 import { useAuth } from '@/contexts/AuthContext';
