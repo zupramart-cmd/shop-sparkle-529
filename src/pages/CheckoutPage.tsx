@@ -51,6 +51,11 @@ export default function CheckoutPage() {
   const { settings } = useSettings();
   const navigate = useNavigate();
   const location = useLocation();
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth', { state: { from: '/checkout', checkoutState: location.state }, replace: true });
+    }
+  }, [user]);
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   
