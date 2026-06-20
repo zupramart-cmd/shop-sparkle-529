@@ -151,6 +151,10 @@ export default function ProductPage() {
       quantity: qty,
       isDigital,
     };
+    if (!user) {
+      navigate('/auth', { state: { from: '/checkout', checkoutState: { selectedItems: [item], isDigitalOrder: isDigital } } });
+      return;
+    }
     navigate('/checkout', { state: { selectedItems: [item], isDigitalOrder: isDigital } });
   };
 
