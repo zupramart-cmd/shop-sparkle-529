@@ -39,6 +39,7 @@ export default function ProductPage() {
   const related = product ? products.filter(p => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4) : [];
   const otherCategoryProducts = product ? products.filter(p => p.categoryId !== product.categoryId).slice(0, 8) : [];
   const { addToCart } = useCart();
+  const { user } = useAuth();
   const [currentImage, setCurrentImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | undefined>();
   const [selectedColor, setSelectedColor] = useState<string | undefined>();
