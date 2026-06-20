@@ -79,10 +79,14 @@ export default function CartPage() {
   const cartProductIds = new Set(items.map(i => i.productId));
   const suggestedProducts = products.filter(p => !cartProductIds.has(p.id)).slice(0, 8);
 
-  const handleCheckout = () =>
-    navigate('/checkout', {
-      state: { selectedItems, discount, couponCode: appliedCoupon, couponData: appliedCouponData },
-    });
+  const handleCheckout = () => {
+    const checkoutState = { selectedItems, discount, couponCode: appliedCoupon, couponData: appliedCouponData };
+    if (!user) {
+      navigate('/auth', { state: { from: '/checkout', checkoutState } });
+      return;
+    }
+    navigate('/checkout', { state: checkoutState });
+  };
 
   if (items.length === 0) {
     return (
@@ -98,7 +102,7 @@ export default function CartPage() {
         {suggestedProducts.length > 0 && (
           <section className="mt-6">
             <h2 className="font-bold text-base mb-3">Recommended for You</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
               {suggestedProducts.map(p => <ProductCard key={p.id} product={p} />)}
             </div>
           </section>
@@ -232,7 +236,7 @@ export default function CartPage() {
         {suggestedProducts.length > 0 && (
           <section className="mt-8">
             <h2 className="font-bold text-base mb-3">Recommended for You</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
               {suggestedProducts.map(p => <ProductCard key={p.id} product={p} />)}
             </div>
           </section>

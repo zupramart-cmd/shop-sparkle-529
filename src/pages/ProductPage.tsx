@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useProducts, useSettings } from '@/hooks/useFirestoreData';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Star, Minus, Plus, ChevronLeft, ChevronRight, Truck, Shield, RotateCcw, ShoppingCart, ThumbsUp, CheckCircle, AlertTriangle, Banknote, Smartphone, ExternalLink, Monitor, Phone, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -38,6 +39,7 @@ export default function ProductPage() {
   const related = product ? products.filter(p => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4) : [];
   const otherCategoryProducts = product ? products.filter(p => p.categoryId !== product.categoryId).slice(0, 8) : [];
   const { addToCart } = useCart();
+  const { user } = useAuth();
   const [currentImage, setCurrentImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | undefined>();
   const [selectedColor, setSelectedColor] = useState<string | undefined>();
@@ -149,6 +151,10 @@ export default function ProductPage() {
       quantity: qty,
       isDigital,
     };
+    if (!user) {
+      navigate('/auth', { state: { from: '/checkout', checkoutState: { selectedItems: [item], isDigitalOrder: isDigital } } });
+      return;
+    }
     navigate('/checkout', { state: { selectedItems: [item], isDigitalOrder: isDigital } });
   };
 
@@ -394,14 +400,14 @@ export default function ProductPage() {
         {related.length > 0 && (
           <section className="mt-4 px-4 lg:px-0">
             <h2 className="font-bold text-base mb-4">Similar Products</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">{related.map(p => <ProductCard key={p.id} product={p} />)}</div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">{related.map(p => <ProductCard key={p.id} product={p} />)}</div>
           </section>
         )}
 
         {otherCategoryProducts.length > 0 && (
           <section className="mt-6 px-4 lg:px-0">
             <h2 className="font-bold text-base mb-4">You May Also Like</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">{otherCategoryProducts.map(p => <ProductCard key={p.id} product={p} />)}</div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">{otherCategoryProducts.map(p => <ProductCard key={p.id} product={p} />)}</div>
           </section>
         )}
       </div>
