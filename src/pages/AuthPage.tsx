@@ -16,8 +16,15 @@ export default function AuthPage() {
   const { login, register, resetPassword } = useAuth();
   const { settings } = useSettings();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const refCode = searchParams.get('ref') || '';
+  const from = (location.state as any)?.from as string | undefined;
+  const checkoutState = (location.state as any)?.checkoutState;
+  const goAfterAuth = () => {
+    if (from) navigate(from, { state: checkoutState, replace: true });
+    else navigate('/', { replace: true });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
