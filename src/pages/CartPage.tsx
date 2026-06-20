@@ -79,10 +79,14 @@ export default function CartPage() {
   const cartProductIds = new Set(items.map(i => i.productId));
   const suggestedProducts = products.filter(p => !cartProductIds.has(p.id)).slice(0, 8);
 
-  const handleCheckout = () =>
-    navigate('/checkout', {
-      state: { selectedItems, discount, couponCode: appliedCoupon, couponData: appliedCouponData },
-    });
+  const handleCheckout = () => {
+    const checkoutState = { selectedItems, discount, couponCode: appliedCoupon, couponData: appliedCouponData };
+    if (!user) {
+      navigate('/auth', { state: { from: '/checkout', checkoutState } });
+      return;
+    }
+    navigate('/checkout', { state: checkoutState });
+  };
 
   if (items.length === 0) {
     return (
