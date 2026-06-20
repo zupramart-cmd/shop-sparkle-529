@@ -9,7 +9,7 @@ interface SEOHeadProps {
   schema?: Record<string, any>;
 }
 
-export default function SEOHead({ title, description, url, image = '/logo.jpg', type = 'website', schema }: SEOHeadProps) {
+export default function SEOHead({ title, description, url, image = '/logo.png', type = 'website', schema }: SEOHeadProps) {
   useEffect(() => {
     // Title
     document.title = title;
