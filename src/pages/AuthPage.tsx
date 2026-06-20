@@ -36,7 +36,7 @@ export default function AuthPage() {
       } else {
         try {
           await login(form.email, form.password);
-          navigate('/');
+          goAfterAuth();
         } catch (err: any) {
           if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
             try {
@@ -46,7 +46,7 @@ export default function AuthPage() {
               if (refCode && currentUser?.uid) {
                 try { await bindReferral(currentUser.uid, refCode); } catch {}
               }
-              navigate('/');
+              goAfterAuth();
             } catch (regErr: any) {
               if (regErr.code === 'auth/email-already-in-use') {
                 setError('ভুল পাসওয়ার্ড। আবার চেষ্টা করুন।');
