@@ -19,10 +19,11 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="mt-10 bg-muted/30 border-t border-border/60 pb-28 lg:pb-0">
+    <footer className="mt-8 bg-muted/30 border-t border-border/60 pb-[calc(var(--nav-height,56px)+env(safe-area-inset-bottom,0px))] lg:pb-0">
 
       {/* ── Main grid ── */}
-      <div className="max-w-screen-xl mx-auto px-5 pt-10 pb-8 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+      <div className="max-w-screen-xl mx-auto px-5 pt-6 pb-5 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10">
+
 
         {/* Brand col */}
         <div className="col-span-2 sm:col-span-2 lg:col-span-1">

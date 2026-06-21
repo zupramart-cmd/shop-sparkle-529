@@ -2,59 +2,72 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Users - নিজের ডাটা পড়তে ও আপডেট করতে পারবে
+    // Users
+    // - Authenticated users can read user docs (needed for referral code lookup).
+    // - A user can create/update their own doc; admins can update any.
+    // - Other authenticated users may ONLY update the `loyaltyPoints` field
+    //   (needed when a referrer is rewarded during bindReferral).
     match /users/{userId} {
-      allow read: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      allow read: if request.auth != null;
       allow create: if request.auth != null && request.auth.uid == userId;
-      allow update: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      allow update: if request.auth != null && (
+        request.auth.uid == userId
+        || isAdmin()
+        || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['loyaltyPoints'])
+      );
       allow delete: if isAdmin();
     }
 
-    // Products - সবাই পড়তে পারবে, শুধু অ্যাডমিন CRUD
+    // Products
     match /products/{productId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // Categories - সবাই পড়তে পারবে, শুধু অ্যাডমিন CRUD
+    // Categories
     match /categories/{categoryId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // Banners - সবাই পড়তে পারবে, শুধু অ্যাডমিন CRUD
+    // Banners
     match /banners/{bannerId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // Coupons - সবাই পড়তে পারবে, শুধু অ্যাডমিন CRUD
+    // Coupons
+    // - Everyone can read (to validate codes).
+    // - Admin full write.
+    // - A signed-in user can delete THEIR OWN coupon (consumed after checkout).
+    // - A signed-in user can create their own loyalty coupon (userId == auth.uid).
     match /coupons/{couponId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow delete: if isAdmin() || (request.auth != null && resource.data.userId == request.auth.uid);
+      allow update: if isAdmin();
     }
 
-    // Carts - নিজের কার্ট নিজে ম্যানেজ করবে
+    // Carts
     match /carts/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Orders - নিজের অর্ডার পড়তে ও তৈরি করতে পারবে, অ্যাডমিন সব ম্যানেজ করবে
+    // Orders
     match /orders/{orderId} {
       allow read: if request.auth != null && (resource.data.userId == request.auth.uid || isAdmin());
       allow create: if request.auth != null;
       allow update, delete: if isAdmin();
     }
 
-    // Settings - সবাই পড়তে পারবে, শুধু অ্যাডমিন আপডেট করবে
+    // Settings
     match /settings/{settingId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // Admin check function
     function isAdmin() {
-      return request.auth != null && 
+      return request.auth != null &&
         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
   }

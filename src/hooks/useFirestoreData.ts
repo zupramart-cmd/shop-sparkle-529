@@ -56,6 +56,8 @@ export interface Coupon {
   expiresAt?: any;
   userId?: string;
   pointsUsed?: number;
+  /** If set, coupon applies only to these product ids. Empty/undefined = all products. */
+  productIds?: string[];
 }
 
 export interface Order {

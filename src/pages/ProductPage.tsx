@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Star, Minus, Plus, ChevronLeft, ChevronRight, Truck, Shield, RotateCcw, ShoppingCart, ThumbsUp, CheckCircle, AlertTriangle, Banknote, Smartphone, ExternalLink, Monitor, Phone, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+
 import ProductCard from '@/components/ProductCard';
 import { motion, AnimatePresence } from 'framer-motion';
 import SocialShareButtons from '@/components/SocialShareButtons';
@@ -318,58 +318,66 @@ export default function ProductPage() {
             </div>
 
             {/* Trust Badges */}
-            <div className="mt-6 bg-muted/40 rounded-2xl p-4 border border-border">
-              <h3 className="font-bold text-sm mb-3 text-foreground">{isDigital ? 'ডিজিটাল প্রোডাক্ট সুবিধা' : 'আমাদের সুবিধাসমূহ'}</h3>
-              <div className="grid grid-cols-2 gap-2.5">
-                {(isDigital ? [
-                  { icon: Smartphone, label: 'মোবাইল ব্যাংকিং', sub: 'bKash / Nagad', color: 'text-pink-500 bg-pink-500/10' },
-                  { icon: CheckCircle, label: 'Instant Delivery', sub: 'পেমেন্টের পর ডাউনলোড', color: 'text-green-600 bg-green-500/10' },
-                  { icon: Shield, label: '100% অরিজিনাল', sub: 'গ্যারান্টিযুক্ত ফাইল', color: 'text-amber-500 bg-amber-500/10' },
-                  { icon: Monitor, label: 'লাইভ ডেমো', sub: 'কেনার আগে দেখুন', color: 'text-blue-500 bg-blue-500/10' },
-                ] : [
-                  { icon: Banknote, label: 'ক্যাশ অন ডেলিভারি', sub: 'পণ্য পেয়ে পেমেন্ট', color: 'text-green-600 bg-green-500/10' },
-                  { icon: Smartphone, label: 'মোবাইল ব্যাংকিং', sub: 'bKash / Nagad', color: 'text-pink-500 bg-pink-500/10' },
-                  { icon: RotateCcw, label: '7 দিনে পণ্য ফেরত', sub: 'সহজ রিটার্ন পলিসি', color: 'text-blue-500 bg-blue-500/10' },
-                  { icon: Shield, label: '100% টাকা ফেরত', sub: 'মানি ব্যাক গ্যারান্টি', color: 'text-amber-500 bg-amber-500/10' },
-                  { icon: CheckCircle, label: '99% অরিজিনাল', sub: 'প্রোডাক্ট গ্যারান্টি', color: 'text-emerald-600 bg-emerald-500/10' },
-                  { icon: Truck, label: 'দ্রুত ডেলিভারি', sub: 'সারাদেশে পৌঁছে দেই', color: 'text-purple-500 bg-purple-500/10' },
-                ]).map((item) => {
-                  const ItemIcon = item.icon;
-                  return (
-                    <div key={item.label} className="flex items-center gap-2.5 p-2.5 bg-card rounded-xl border border-border/50">
-                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${item.color}`}>
-                        <ItemIcon size={18} />
+            <div className="mt-6 relative rounded-2xl p-[1px] bg-gradient-to-br from-primary/30 via-primary/10 to-transparent">
+              <div className="rounded-2xl bg-card p-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="w-1.5 h-5 rounded-full bg-gradient-to-b from-primary to-primary/40" />
+                  <h3 className="font-bold text-sm">{isDigital ? 'ডিজিটাল প্রোডাক্ট সুবিধা' : 'আমাদের সুবিধাসমূহ'}</h3>
+                </div>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {(isDigital ? [
+                    { icon: Smartphone, label: 'মোবাইল ব্যাংকিং', sub: 'bKash / Nagad', color: 'text-pink-500 bg-pink-500/10' },
+                    { icon: CheckCircle, label: 'Instant Delivery', sub: 'পেমেন্টের পর ডাউনলোড', color: 'text-green-600 bg-green-500/10' },
+                    { icon: Shield, label: '100% অরিজিনাল', sub: 'গ্যারান্টিযুক্ত ফাইল', color: 'text-amber-500 bg-amber-500/10' },
+                    { icon: Monitor, label: 'লাইভ ডেমো', sub: 'কেনার আগে দেখুন', color: 'text-blue-500 bg-blue-500/10' },
+                  ] : [
+                    { icon: Banknote, label: 'ক্যাশ অন ডেলিভারি', sub: 'পণ্য পেয়ে পেমেন্ট', color: 'text-green-600 bg-green-500/10' },
+                    { icon: Smartphone, label: 'মোবাইল ব্যাংকিং', sub: 'bKash / Nagad', color: 'text-pink-500 bg-pink-500/10' },
+                    { icon: RotateCcw, label: '7 দিনে পণ্য ফেরত', sub: 'সহজ রিটার্ন পলিসি', color: 'text-blue-500 bg-blue-500/10' },
+                    { icon: Shield, label: '100% টাকা ফেরত', sub: 'মানি ব্যাক গ্যারান্টি', color: 'text-amber-500 bg-amber-500/10' },
+                    { icon: CheckCircle, label: '99% অরিজিনাল', sub: 'প্রোডাক্ট গ্যারান্টি', color: 'text-emerald-600 bg-emerald-500/10' },
+                    { icon: Truck, label: 'দ্রুত ডেলিভারি', sub: 'সারাদেশে পৌঁছে দেই', color: 'text-purple-500 bg-purple-500/10' },
+                  ]).map((item) => {
+                    const ItemIcon = item.icon;
+                    return (
+                      <div key={item.label} className="group flex items-center gap-2.5 p-2.5 rounded-xl border border-border/60 bg-background/60 hover:bg-background hover:border-primary/40 hover:shadow-sm transition-all">
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${item.color} group-hover:scale-105 transition-transform`}>
+                          <ItemIcon size={18} />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-xs font-semibold leading-tight truncate">{item.label}</p>
+                          <p className="text-[10px] text-muted-foreground truncate">{item.sub}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-xs font-semibold leading-tight">{item.label}</p>
-                        <p className="text-[10px] text-muted-foreground">{item.sub}</p>
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
-            {/* Description as bullet points */}
-            <Accordion type="multiple" className="mt-5" defaultValue={['description']}>
-              <AccordionItem value="description">
-                <AccordionTrigger className="text-sm font-semibold">Description</AccordionTrigger>
-                <AccordionContent>
-                  {descriptionPoints.length > 0 ? (
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      {descriptionPoints.map((point: string, i: number) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                          <span className="leading-relaxed">{point.replace(/^[-•*]\s*/, '')}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-sm text-muted-foreground leading-relaxed">{product.description}</p>
-                  )}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+            {/* Description */}
+            <div className="mt-6 rounded-2xl border border-border bg-card overflow-hidden">
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-muted/30">
+                <span className="w-1.5 h-5 rounded-full bg-gradient-to-b from-primary to-primary/40" />
+                <h3 className="font-bold text-sm">Product Description</h3>
+              </div>
+              <div className="p-4">
+                {descriptionPoints.length > 0 ? (
+                  <ul className="space-y-2.5 text-sm text-foreground/80">
+                    {descriptionPoints.map((point: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2.5">
+                        <span className="mt-1 w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                          <CheckCircle size={12} />
+                        </span>
+                        <span className="leading-relaxed">{point.replace(/^[-•*]\s*/, '')}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{product.description}</p>
+                )}
+              </div>
+            </div>
 
             {/* Reviews */}
             <div className="mt-6">
