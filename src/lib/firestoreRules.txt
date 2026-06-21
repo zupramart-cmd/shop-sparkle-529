@@ -1,0 +1,61 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users - নিজের ডাটা পড়তে ও আপডেট করতে পারবে
+    match /users/{userId} {
+      allow read: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    // Products - সবাই পড়তে পারবে, শুধু অ্যাডমিন CRUD
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Categories - সবাই পড়তে পারবে, শুধু অ্যাডমিন CRUD
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Banners - সবাই পড়তে পারবে, শুধু অ্যাডমিন CRUD
+    match /banners/{bannerId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Coupons - সবাই পড়তে পারবে, শুধু অ্যাডমিন CRUD
+    match /coupons/{couponId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Carts - নিজের কার্ট নিজে ম্যানেজ করবে
+    match /carts/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Orders - নিজের অর্ডার পড়তে ও তৈরি করতে পারবে, অ্যাডমিন সব ম্যানেজ করবে
+    match /orders/{orderId} {
+      allow read: if request.auth != null && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if request.auth != null;
+      allow update, delete: if isAdmin();
+    }
+
+    // Settings - সবাই পড়তে পারবে, শুধু অ্যাডমিন আপডেট করবে
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Admin check function
+    function isAdmin() {
+      return request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+  }
+}
