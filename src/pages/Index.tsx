@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useProducts, useCategories, useBanners, useSettings } from '@/hooks/useFirestoreData';
 import ProductCard from '@/components/ProductCard';
 import { ProductCardSkeleton, BannerSkeleton, CategorySkeleton } from '@/components/Skeletons';
-import { ChevronRight, TrendingUp, Zap, Package } from 'lucide-react';
+import { ChevronRight, TrendingUp, Package } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
 
 export default function Index() {
@@ -22,9 +22,8 @@ export default function Index() {
     return () => clearInterval(interval);
   }, [loading, banners.length]);
 
-  const flashDeals = products.filter(p => p.originalPrice && p.originalPrice > p.price).slice(0, 4);
-  const featured = products.filter(p => p.featured).slice(0, 8);
-  const allProducts = products.slice(0, 12);
+  const featured = products.filter(p => p.featured).slice(0, 12);
+  const allProducts = products;
 
   return (
     <div className="pb-nav lg:pb-8">
@@ -103,18 +102,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Flash Deals */}
-      {flashDeals.length > 0 && (
-        <section className="mt-6 px-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2"><Zap size={18} className="text-accent fill-accent" /><h2 className="font-bold text-base">Flash Deals</h2></div>
-            <Link to="/search?sort=discount" className="text-primary text-sm font-medium flex items-center gap-1">View all <ChevronRight size={14} /></Link>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {flashDeals.map(product => <ProductCard key={product.id} product={product} />)}
-          </div>
-        </section>
-      )}
 
       {/* Featured Products */}
       {featured.length > 0 && (
