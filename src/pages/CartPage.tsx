@@ -46,14 +46,23 @@ export default function CartPage() {
     setCouponLoading(true);
     try {
       const found = await validateCoupon(coupon.trim(), user?.uid);
-      if (found) {
-        setAppliedCoupon(found.code);
-        setAppliedCouponData(found);
-        setDiscount(found.discountPercent || 0);
-        setDiscountFlat(found.maxDiscount || 0);
-      } else {
+      if (!found) {
         setCouponError('Invalid coupon code');
+        return;
       }
+      // If coupon is restricted to specific products, ensure at least one of those is in selected items
+      const restricted: string[] = Array.isArray((found as any).productIds) ? (found as any).productIds : [];
+      if (restricted.length > 0) {
+        const match = selectedItems.some(i => restricted.includes(i.productId));
+        if (!match) {
+          setCouponError('এই কুপনটি আপনার নির্বাচিত পণ্যের জন্য প্রযোজ্য নয়');
+          return;
+        }
+      }
+      setAppliedCoupon(found.code);
+      setAppliedCouponData(found);
+      setDiscount(found.discountPercent || 0);
+      setDiscountFlat(found.maxDiscount || 0);
     } finally {
       setCouponLoading(false);
     }
@@ -70,9 +79,16 @@ export default function CartPage() {
 
   const DELIVERY_CHARGE = settings.deliveryCharge || 60;
 
+  // If the coupon is restricted to certain products, only those items contribute to the discount.
+  const couponProductIds: string[] = Array.isArray(appliedCouponData?.productIds) ? appliedCouponData.productIds : [];
+  const eligibleItems = couponProductIds.length > 0
+    ? selectedItems.filter(i => couponProductIds.includes(i.productId))
+    : selectedItems;
+  const eligibleTotal = eligibleItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
   let discountAmount = 0;
-  if (discount > 0) discountAmount = (total * discount) / 100;
-  else if (discountFlat > 0) discountAmount = Math.min(discountFlat, total);
+  if (discount > 0) discountAmount = (eligibleTotal * discount) / 100;
+  else if (discountFlat > 0) discountAmount = Math.min(discountFlat, eligibleTotal);
 
   const finalTotal = total - discountAmount + DELIVERY_CHARGE;
 
