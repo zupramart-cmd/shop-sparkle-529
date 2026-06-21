@@ -147,7 +147,14 @@ export default function AdminPage() {
   const saveCoupon = async () => {
     setSaving(true);
     try {
-      const data = { code: (form.code || '').toUpperCase(), discountPercent: Number(form.discountPercent) || 0, minOrder: Number(form.minOrder) || 0, maxDiscount: Number(form.maxDiscount) || 0, active: form.active !== false };
+      const data: any = {
+        code: (form.code || '').toUpperCase(),
+        discountPercent: Number(form.discountPercent) || 0,
+        minOrder: Number(form.minOrder) || 0,
+        maxDiscount: Number(form.maxDiscount) || 0,
+        active: form.active !== false,
+        productIds: Array.isArray(form.productIds) ? form.productIds : [],
+      };
       if (dialog?.item?.id) await updateCoupon(dialog.item.id, data);
       else await addCoupon(data);
       closeDialog();
@@ -767,7 +774,7 @@ export default function AdminPage() {
 
       {/* ── Coupon Dialog ── */}
       <Dialog open={dialog?.type === 'coupon'} onOpenChange={open => !open && closeDialog()}>
-        <DialogContent>
+        <DialogContent className="max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{dialog?.item ? 'Edit Coupon' : 'Add Coupon'}</DialogTitle></DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1.5"><Label>Code</Label><Input value={form.code || ''} onChange={e => setForm((f: any) => ({ ...f, code: e.target.value }))} placeholder="SAVE20" /></div>
@@ -776,6 +783,42 @@ export default function AdminPage() {
               <div className="space-y-1.5"><Label>Min Order (৳)</Label><Input type="number" value={form.minOrder || ''} onChange={e => setForm((f: any) => ({ ...f, minOrder: e.target.value }))} /></div>
               <div className="space-y-1.5"><Label>Max / Flat Discount (৳)</Label><Input type="number" value={form.maxDiscount || ''} onChange={e => setForm((f: any) => ({ ...f, maxDiscount: e.target.value }))} /></div>
             </div>
+
+            {/* Per-product selection */}
+            <div className="space-y-1.5">
+              <Label>Applies to products <span className="text-muted-foreground font-normal">(empty = all products)</span></Label>
+              <div className="max-h-48 overflow-y-auto border border-border rounded-lg p-2 space-y-1 bg-muted/30">
+                {products.length === 0 ? (
+                  <p className="text-xs text-muted-foreground p-2">No products yet.</p>
+                ) : products.map(p => {
+                  const selectedIds: string[] = Array.isArray(form.productIds) ? form.productIds : [];
+                  const checked = selectedIds.includes(p.id);
+                  return (
+                    <label key={p.id} className="flex items-center gap-2 p-1.5 hover:bg-card rounded cursor-pointer text-sm">
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={e => {
+                          setForm((f: any) => {
+                            const cur: string[] = Array.isArray(f.productIds) ? [...f.productIds] : [];
+                            if (e.target.checked) cur.push(p.id);
+                            else cur.splice(cur.indexOf(p.id), 1);
+                            return { ...f, productIds: cur };
+                          });
+                        }}
+                      />
+                      <img src={p.images?.[0]} alt="" className="w-7 h-7 rounded object-cover bg-muted" />
+                      <span className="flex-1 truncate">{p.name}</span>
+                      <span className="text-xs text-muted-foreground">৳{p.price}</span>
+                    </label>
+                  );
+                })}
+              </div>
+              {Array.isArray(form.productIds) && form.productIds.length > 0 && (
+                <p className="text-xs text-muted-foreground">{form.productIds.length} product(s) selected</p>
+              )}
+            </div>
+
             <div className="flex items-center gap-2"><Switch checked={form.active !== false} onCheckedChange={v => setForm((f: any) => ({ ...f, active: v }))} /><Label>Active</Label></div>
             <Button onClick={saveCoupon} disabled={saving} className="w-full">{saving ? 'Saving...' : 'Save'}</Button>
           </div>
