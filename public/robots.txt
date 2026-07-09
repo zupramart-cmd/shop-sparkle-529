@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /cart
+Disallow: /checkout
+Disallow: /order-success
+Disallow: /orders
+Disallow: /profile
+Disallow: /search
+
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /cart
+Disallow: /checkout
+Disallow: /order-success
+Disallow: /orders
+Disallow: /profile
+Disallow: /search
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /checkout
